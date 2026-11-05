@@ -1,0 +1,31 @@
+services:
+  soup:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        SOUP_VERSION: "0.77.1"
+    image: soup-akamai:0.77.1
+    container_name: soup-akamai-runtime
+    restart: unless-stopped
+    ipc: host  # Critical for zero-copy PyTorch dataloader memory sharing
+    environment:
+      - HF_TOKEN=${HF_TOKEN:-}
+      - WANDB_API_KEY=${WANDB_API_KEY:-}
+      - HF_HOME=/mnt/soup-storage/cache/huggingface
+      - SOUP_CACHE_DIR=/mnt/soup-storage/cache/soup
+      - CUDA_VISIBLE_DEVICES=0
+    volumes:
+      # Persistent Linode storage mounts to prevent redownloading weights
+      - /mnt/soup-storage/cache/huggingface:/mnt/soup-storage/cache/huggingface
+      - /mnt/soup-storage/data:/workspace/data
+      - /mnt/soup-storage/checkpoints:/workspace/checkpoints
+      - ./configs:/workspace/configs
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+    command: ["--help"]

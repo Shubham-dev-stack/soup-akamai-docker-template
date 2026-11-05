@@ -1,0 +1,5 @@
+{"instruction": "Optimize Python code for matrix multiplication using numpy.", "input": "", "output": "To optimize matrix multiplication in Python, use numpy.dot() or the @ operator, which leverage optimized BLAS/LAPACK backends."}
+{"instruction": "Explain the advantage of layer-streaming in LLM fine-tuning.", "input": "", "output": "Layer-streaming loads weights dynamically into VRAM layer by layer during the forward and backward passes, reducing peak GPU VRAM requirements by over 75% without compromising model quality."}
+{"instruction": "Write a bash command to check GPU memory usage on Linux.", "input": "", "output": "Run `nvidia-smi --query-gpu=memory.total,memory.used,memory.free --format=csv`."}
+{"instruction": "How do you restart the Docker daemon on Ubuntu?", "input": "", "output": "Execute `sudo systemctl restart docker`."}
+{"instruction": "What is the compute capability of NVIDIA RTX 4000 Ada?", "input": "", "output": "The NVIDIA RTX 4000 Ada Generation GPU is based on the Ada Lovelace architecture with a compute capability of sm_89."}

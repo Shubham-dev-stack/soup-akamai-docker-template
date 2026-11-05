@@ -1,0 +1,40 @@
+# ==============================================================================
+# Soup Layer-Streaming Recipe for Akamai RTX 4000 Ada (20GB VRAM)
+# Target Model: Meta Llama-3.1-8B-Instruct
+# ==============================================================================
+
+base: meta-llama/Llama-3.1-8B-Instruct
+task: sft
+backend: transformers
+
+data:
+  train: /workspace/data/train.jsonl
+  format: alpaca
+  max_length: 2048
+
+training:
+  epochs: 3
+  lr: 2e-4
+  batch_size: 2
+  gradient_accumulation_steps: 4
+  quantization: none            # Soup layer streaming runs in full precision or NF4 without OOM
+  stream_layers: true           # Enables Soup's layer-streaming runtime (keeps active VRAM < 4.8 GB)
+  scheduler: cosine
+  warmup_ratio: 0.05
+  weight_decay: 0.01
+  logging_steps: 5
+  save_steps: 100
+  lora:
+    r: 16
+    alpha: 32
+    dropout: 0.05
+    target_modules:
+      - q_proj
+      - k_proj
+      - v_proj
+      - o_proj
+      - gate_proj
+      - up_proj
+      - down_proj
+
+output: /workspace/checkpoints/llama3_1_8b_akamai/

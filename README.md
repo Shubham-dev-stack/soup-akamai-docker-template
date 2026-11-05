@@ -46,7 +46,7 @@ SSH into your instance and run `setup-akamai.sh`:
 
 ```bash
 # Clone or upload the template to your instance
-git clone <your-repo> /opt/soup-akamai
+git clone https://github.com/Shubham-dev-stack/soup-akamai-docker-template.git /opt/soup-akamai
 cd /opt/soup-akamai
 
 # Run automated host initialization (installs drivers, Docker & NVIDIA runtime)
